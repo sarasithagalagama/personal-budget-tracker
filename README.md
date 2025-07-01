@@ -3,9 +3,11 @@
 A modern, mobile-friendly Spring Boot application for tracking personal finances with a beautiful gradient UI and PostgreSQL persistence.
 
 ## Features
-- Add, view, and categorize expenses and income
+- Add, view, edit, and delete expenses and income
+- Edit and delete via modern modal popups for both transactions and income
 - Dashboard with summary cards, analytics, and charts
 - Category-wise spending breakdown with colorful gradients
+- Income table with full CRUD support
 - Responsive, dark-themed, gradient-based UI (Tailwind CSS)
 - Export transactions to CSV
 - Persistent storage with PostgreSQL
