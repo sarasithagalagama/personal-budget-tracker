@@ -44,6 +44,7 @@ public class TransactionController {
                 .sum();
         double netCashflow = totalEarnings - monthlyTotal;
         model.addAttribute("transaction", new Transaction());
+        model.addAttribute("income", new Income());
         model.addAttribute("transactions", transactions);
         model.addAttribute("categories", Category.values());
         model.addAttribute("monthlyTotal", monthlyTotal);
