@@ -1,10 +1,10 @@
-package sarasitha.budgettracker.budget_tracker;
+package com.sarasitha.budgettracker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BudgetTrackerApplicationTests {
+class BudgettrackerApplicationTests {
 
 	@Test
 	void contextLoads() {
