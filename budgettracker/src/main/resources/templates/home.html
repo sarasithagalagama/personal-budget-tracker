@@ -61,7 +61,16 @@
             <h3 class="text-lg font-semibold text-gray-200 mb-4">Spending by Category</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div th:each="cat,iterStat : ${categoryLabels}"
-                     class="rounded-xl p-6 shadow-lg text-white flex flex-col items-start justify-between bg-gradient-to-br from-indigo-700 to-purple-800">
+                     th:class="'rounded-xl p-6 shadow-lg text-white flex flex-col items-start justify-between bg-gradient-to-br ' +
+                        ${T(java.util.List).of(
+                            'from-indigo-500 to-purple-500',
+                            'from-pink-500 to-red-500',
+                            'from-green-500 to-teal-500',
+                            'from-yellow-500 to-orange-500',
+                            'from-blue-500 to-cyan-500',
+                            'from-fuchsia-500 to-pink-500',
+                            'from-emerald-500 to-lime-500'
+                        )[iterStat.index % 7]}">
                     <span class="text-lg font-semibold" th:text="${cat}"></span>
                     <span class="text-2xl font-bold mt-2" th:text="${categoryValues[iterStat.index]}">$0.00</span>
                 </div>
