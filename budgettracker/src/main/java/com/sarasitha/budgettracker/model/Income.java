@@ -4,21 +4,17 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-public class Transaction {
+public class Income {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
     private double amount;
     private LocalDate date;
+    private String source;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    public Income() {}
 
-    private String description;
-
-    // Getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -31,9 +27,6 @@ public class Transaction {
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
 
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) { this.category = category; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-}
+    public String getSource() { return source; }
+    public void setSource(String source) { this.source = source; }
+} 
