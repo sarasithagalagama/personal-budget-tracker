@@ -161,4 +161,31 @@ public class TransactionController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/income/{id}")
+    @ResponseBody
+    public ResponseEntity<Income> getIncome(@PathVariable Long id) {
+        return incomeRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/income/edit")
+    public String editIncome(@ModelAttribute Income income) {
+        if (income.getId() != null && incomeRepository.existsById(income.getId())) {
+            incomeRepository.save(income);
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/income/delete/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteIncomeAjax(@PathVariable Long id) {
+        if (incomeRepository.existsById(id)) {
+            incomeRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
