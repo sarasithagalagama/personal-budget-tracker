@@ -35,7 +35,7 @@ A modern, mobile-friendly Spring Boot application for tracking personal finances
 
 ## Tech Stack
 - **Backend:** Java 21, Spring Boot 3
-- **Frontend:** Thymeleaf, Tailwind CSS, Chart.js
+- **Frontend:** Thymeleaf, Tailwind CSS, Chart.js, JavaScript
 - **Database:** PostgreSQL
 
 ## Screenshots
@@ -79,5 +79,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - Built with [Spring Boot](https://spring.io/projects/spring-boot)
 
 ---
+
+**Note:** HTML, CSS, and JavaScript are present in this project for the UI, but are hidden from GitHub language statistics using `.gitattributes` to highlight Java and Spring Boot as the main technologies.
 
 _Enjoy tracking your budget with style!_
