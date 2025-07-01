@@ -63,6 +63,11 @@ public class TransactionController {
         java.util.List<Double> categoryValues = categoryTotals.values().stream().toList();
         model.addAttribute("categoryLabels", categoryLabels);
         model.addAttribute("categoryValues", categoryValues);
+        java.util.List<String> categoryGradients = java.util.List.of(
+            "#6366f1", "#10b981", "#f59e42", "#ef4444", "#eab308",
+            "#a78bfa", "#f472b6", "#38bdf8", "#34d399", "#f87171"
+        );
+        model.addAttribute("categoryGradients", categoryGradients);
         return "home";
     }
 

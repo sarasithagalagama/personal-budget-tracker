@@ -58,8 +58,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div th:each="cat,iterStat : ${categoryLabels}"
                      class="rounded-xl p-6 shadow-lg text-white flex flex-col items-start justify-between"
-                     th:style="'background: linear-gradient(135deg, ' + 
-                         ${#lists.array(['#6366f1', '#10b981', '#f59e42', '#ef4444', '#eab308', '#a78bfa', '#f472b6', '#38bdf8', '#34d399', '#f87171'])[iterStat.index % 10]} + ', #23272f);'">
+                     th:style="'background: linear-gradient(135deg, ' + ${categoryGradients[iterStat.index % categoryGradients.size()]} + ', #23272f);'">
                     <span class="text-lg font-semibold" th:text="${cat}"></span>
                     <span class="text-2xl font-bold mt-2" th:text="${categoryValues[iterStat.index]}">$0.00</span>
                 </div>
