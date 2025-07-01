@@ -1,57 +1,30 @@
 # Personal Budget Tracker
 
-A modern, mobile-friendly Spring Boot application for tracking personal finances with a beautiful gradient UI and PostgreSQL persistence.
+A simple Spring Boot app to track personal expenses and income with a clean dark UI and PostgreSQL.
 
 ## Features
-- Add, view, edit, and delete expenses and income
-- Edit and delete via modern modal popups for both transactions and income
-- Dashboard with summary cards, analytics, and charts
-- Category-wise spending breakdown with colorful gradients
-- Income table with full CRUD support
-- Responsive, dark-themed, gradient-based UI (Tailwind CSS)
+- Add, edit, and delete expenses and income
+- Dashboard with summary cards and charts
+- Category-wise spending breakdown
 - Export transactions to CSV
-- Persistent storage with PostgreSQL
+- Dark, mobile-friendly UI
 
 ## Tech Stack
-- **Backend:** Java 21, Spring Boot 3
-- **Frontend:** Thymeleaf, Tailwind CSS, Chart.js
-- **Database:** PostgreSQL
+- Java 21, Spring Boot 3
+- Thymeleaf, Tailwind CSS, Chart.js
+- PostgreSQL
 
-## Screenshots
-![screencapture-localhost-8080-2025-07-02-03_46_52](https://github.com/user-attachments/assets/adbe388a-37ba-451e-b11a-192bcd2a4c97)
-
-
-## Getting Started
-
-### Prerequisites
-- Java 21+
-- Maven
-- PostgreSQL (running and accessible)
-
-### Setup
-1. **Clone the repository:**
+## Setup
+1. Clone the repo and enter the project folder:
    ```bash
    git clone https://github.com/yourusername/personal-budget-tracker.git
    cd personal-budget-tracker/budgettracker
    ```
-2. **Configure PostgreSQL:**
-   - Edit `src/main/resources/application.properties` with your DB credentials.
-3. **Build and run:**
+2. Edit `src/main/resources/application.properties` with your PostgreSQL credentials.
+3. Run the app:
    ```bash
    mvn spring-boot:run
    ```
-4. **Access the app:**
-   - Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Usage
-- Add transactions and income via the dashboard forms.
-- View analytics, category breakdowns, and net cashflow.
-- Export your data as CSV for backup or analysis.
-
-## Credits
-- UI powered by [Tailwind CSS](https://tailwindcss.com/) and [Chart.js](https://www.chartjs.org/)
-- Built with [Spring Boot](https://spring.io/projects/spring-boot)
-
----
-
-_Enjoy tracking your budget with style!_ 
+Open [http://localhost:8080](http://localhost:8080) and start tracking your budget. 
