@@ -8,111 +8,123 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen">
-    <div class="max-w-7xl mx-auto px-8 py-12">
+    <div class="max-w-7xl mx-auto px-4 py-8">
         <!-- Header -->
         <header class="py-8 text-center mb-8">
-            <h1 class="text-2xl sm:text-3xl font-bold text-indigo-400 mb-1">BudgetTracker</h1>
-            <p class="text-gray-400 text-sm">Your personal budget dashboard</p>
+            <h1 class="text-3xl font-extrabold text-indigo-400 mb-2 tracking-tight">BudgetTracker</h1>
+            <p class="text-gray-400 text-base">Your personal budget dashboard</p>
         </header>
         <!-- Summary Cards -->
-        <div class="grid grid-cols-3 gap-8 mb-8">
-            <div class="bg-gray-800 rounded-lg p-4 flex flex-col items-start shadow">
-                <span class="text-gray-400">Spent This Month</span>
-                <span class="text-xl font-bold text-indigo-400 mt-1" th:text="${monthlyTotal}">$0.00</span>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-10">
+            <div class="bg-gray-800 rounded-xl p-6 flex flex-col items-start shadow-md">
+                <span class="text-gray-400 text-sm">Spent This Month</span>
+                <span class="text-2xl font-bold text-indigo-400 mt-2" th:text="${monthlyTotal}">$0.00</span>
             </div>
-            <div class="bg-gray-800 rounded-lg p-4 flex flex-col items-start shadow">
-                <span class="text-gray-400">Total Transactions</span>
-                <span class="text-xl font-bold text-green-400 mt-1" th:text="${#lists.size(transactions)}">0</span>
+            <div class="bg-gray-800 rounded-xl p-6 flex flex-col items-start shadow-md">
+                <span class="text-gray-400 text-sm">Total Transactions</span>
+                <span class="text-2xl font-bold text-green-400 mt-2" th:text="${#lists.size(transactions)}">0</span>
             </div>
-            <div class="bg-gray-800 rounded-lg p-4 flex flex-col items-start shadow justify-between">
-                <span class="text-gray-400 mb-1">Export</span>
-                <a href="/export" class="inline-block px-3 py-1 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition text-sm">Export CSV</a>
+            <div class="bg-gray-800 rounded-xl p-6 flex flex-col items-start shadow-md">
+                <span class="text-gray-400 text-sm">Total Earnings</span>
+                <span class="text-2xl font-bold text-blue-400 mt-2" th:text="${totalEarnings}">$0.00</span>
             </div>
-            <div class="bg-gray-800 rounded-lg p-4 flex flex-col items-start shadow">
-                <span class="text-gray-400">Total Earnings</span>
-                <span class="text-xl font-bold text-blue-400 mt-1" th:text="${totalEarnings}">$0.00</span>
-            </div>
-            <div class="bg-gray-800 rounded-lg p-4 flex flex-col items-start shadow">
-                <span class="text-gray-400">Net Cashflow</span>
-                <span class="text-xl font-bold mt-1"
+            <div class="bg-gray-800 rounded-xl p-6 flex flex-col items-start shadow-md">
+                <span class="text-gray-400 text-sm">Net Cashflow</span>
+                <span class="text-2xl font-bold mt-2"
                       th:text="${netCashflow}"
                       th:classappend="${netCashflow} >= 0 ? 'text-green-400' : 'text-red-400'">
                     $0.00
                 </span>
             </div>
+            <div class="bg-gray-800 rounded-xl p-6 flex flex-col items-start shadow-md justify-between">
+                <span class="text-gray-400 text-sm mb-2">Export</span>
+                <a href="/export" class="inline-block px-4 py-2 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition text-sm">Export CSV</a>
+            </div>
         </div>
-        <!-- Charts -->
-        <div class="grid grid-cols-2 gap-8 mb-8">
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-base font-semibold text-gray-200 mb-2">Budget Breakdown</h3>
+        <!-- Analytics Charts -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div class="bg-gray-800 rounded-xl p-6 shadow-md">
+                <h3 class="text-lg font-semibold text-gray-200 mb-4">Budget Breakdown</h3>
                 <canvas id="doughnutChart" height="120"></canvas>
             </div>
-            <div class="bg-gray-800 rounded-lg p-4 shadow">
-                <h3 class="text-base font-semibold text-gray-200 mb-2">Monthly Cashflow</h3>
+            <div class="bg-gray-800 rounded-xl p-6 shadow-md">
+                <h3 class="text-lg font-semibold text-gray-200 mb-4">Monthly Cashflow</h3>
                 <canvas id="lineChart" height="120"></canvas>
             </div>
-            <div class="bg-gray-800 rounded-lg p-4 shadow col-span-2 mt-8">
-                <h3 class="text-base font-semibold text-gray-200 mb-2">Spending by Category</h3>
-                <canvas id="categoryChart" height="180"></canvas>
+        </div>
+        <!-- Spending by Category Gradient Tiles -->
+        <div class="bg-gray-800 rounded-xl p-6 shadow-md mb-10">
+            <h3 class="text-lg font-semibold text-gray-200 mb-4">Spending by Category</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div th:each="cat,iterStat : ${categoryLabels}"
+                     class="rounded-xl p-6 shadow-lg text-white flex flex-col items-start justify-between"
+                     th:style="'background: linear-gradient(135deg, ' + 
+                         ${#lists.array(['#6366f1', '#10b981', '#f59e42', '#ef4444', '#eab308', '#a78bfa', '#f472b6', '#38bdf8', '#34d399', '#f87171'])[iterStat.index % 10]} + ', #23272f);'">
+                    <span class="text-lg font-semibold" th:text="${cat}"></span>
+                    <span class="text-2xl font-bold mt-2" th:text="${categoryValues[iterStat.index]}">$0.00</span>
+                </div>
             </div>
         </div>
-        <!-- Add Transaction Form -->
-        <div class="bg-gray-800 rounded-lg p-8 mb-8 shadow col-span-2">
-            <h3 class="text-base font-semibold text-gray-200 mb-2">Add New Transaction</h3>
-            <form th:action="@{/add}" th:object="${transaction}" method="post" class="grid grid-cols-1 gap-2 mb-6">
-                <div>
-                    <label class="block text-gray-400 mb-1">Title</label>
-                    <input th:field="*{title}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Title" required />
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Amount</label>
-                    <input th:field="*{amount}" type="number" step="0.01" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Amount" required />
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Date</label>
-                    <input th:field="*{date}" type="date" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" required />
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Category</label>
-                    <select th:field="*{category}" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                        <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Description</label>
-                    <input th:field="*{description}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Description" />
-                </div>
-                <div class="flex justify-end mt-2">
-                    <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition text-sm">Add Transaction</button>
-                </div>
-            </form>
-            <hr class="my-8 border-gray-700">
-            <h3 class="text-base font-semibold text-gray-200 mb-2">Add New Income</h3>
-            <form th:action="@{/income}" th:object="${income}" method="post" class="grid grid-cols-1 gap-2">
-                <div>
-                    <label class="block text-gray-400 mb-1">Title</label>
-                    <input th:field="*{title}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="Title" required />
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Amount</label>
-                    <input th:field="*{amount}" type="number" step="0.01" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="Amount" required />
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Date</label>
-                    <input th:field="*{date}" type="date" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" required />
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Source</label>
-                    <input th:field="*{source}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="Source" required />
-                </div>
-                <div class="flex justify-end mt-2">
-                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition text-sm">Add Income</button>
-                </div>
-            </form>
+        <!-- Add Transaction & Income Forms Side by Side -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div class="bg-gray-800 rounded-xl p-8 shadow-md">
+                <h3 class="text-lg font-semibold text-gray-200 mb-4">Add New Transaction</h3>
+                <form th:action="@{/add}" th:object="${transaction}" method="post" class="grid grid-cols-1 gap-3 mb-2">
+                    <div>
+                        <label class="block text-gray-400 mb-1">Title</label>
+                        <input th:field="*{title}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Title" required />
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Amount</label>
+                        <input th:field="*{amount}" type="number" step="0.01" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Amount" required />
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Date</label>
+                        <input th:field="*{date}" type="date" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" required />
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Category</label>
+                        <select th:field="*{category}" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                            <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Description</label>
+                        <input th:field="*{description}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" placeholder="Description" />
+                    </div>
+                    <div class="flex justify-end mt-2">
+                        <button type="submit" class="px-4 py-2 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition text-sm">Add Transaction</button>
+                    </div>
+                </form>
+            </div>
+            <div class="bg-gray-800 rounded-xl p-8 shadow-md">
+                <h3 class="text-lg font-semibold text-gray-200 mb-4">Add New Income</h3>
+                <form th:action="@{/income}" th:object="${income}" method="post" class="grid grid-cols-1 gap-3">
+                    <div>
+                        <label class="block text-gray-400 mb-1">Title</label>
+                        <input th:field="*{title}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="Title" required />
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Amount</label>
+                        <input th:field="*{amount}" type="number" step="0.01" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="Amount" required />
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Date</label>
+                        <input th:field="*{date}" type="date" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" required />
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Source</label>
+                        <input th:field="*{source}" type="text" class="w-full px-3 py-2 rounded bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm" placeholder="Source" required />
+                    </div>
+                    <div class="flex justify-end mt-2">
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition text-sm">Add Income</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- Recent Transactions Table -->
-        <div class="bg-gray-800 rounded-lg p-8 shadow mb-8 col-span-2">
-            <h3 class="text-base font-semibold text-gray-200 mb-2">Recent Transactions</h3>
+        <div class="bg-gray-800 rounded-xl p-8 shadow-md mb-8">
+            <h3 class="text-lg font-semibold text-gray-200 mb-4">Recent Transactions</h3>
             <div class="overflow-x-auto">
                 <table class="min-w-full table-auto text-left text-gray-200 text-sm">
                     <thead>
