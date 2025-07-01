@@ -1,0 +1,4 @@
+# Hide HTML, CSS, and JS from GitHub language stats to highlight Java and Spring Boot as the main technologies
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.js linguist-detectable=false 
