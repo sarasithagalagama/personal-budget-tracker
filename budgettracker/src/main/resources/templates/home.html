@@ -197,7 +197,7 @@
         <div class="bg-gray-800 rounded-xl p-8 w-full max-w-md shadow-lg relative">
             <button id="closeEditModal" class="absolute top-2 right-2 text-gray-400 hover:text-gray-200 text-2xl">&times;</button>
             <h3 class="text-lg font-semibold text-gray-200 mb-4">Edit Transaction</h3>
-            <form id="editTransactionForm" method="post" action="/transaction/edit" class="grid grid-cols-1 gap-3">
+            <form id="editTransactionForm" method="post" action="/transaction/edit" class="grid grid-cols-1 gap-3 mb-2">
                 <input type="hidden" name="id" id="edit-id" />
                 <div>
                     <label class="block text-gray-400 mb-1">Title</label>
@@ -374,17 +374,28 @@
                     fetch(`/income/${id}`)
                         .then(res => res.json())
                         .then(data => {
-                            document.getElementById('edit-income-id').value = data.id;
-                            document.getElementById('edit-income-title').value = data.title;
-                            document.getElementById('edit-income-amount').value = data.amount;
-                            document.getElementById('edit-income-date').value = data.date;
-                            document.getElementById('edit-income-source').value = data.source;
-                            editIncomeModal.classList.remove('hidden');
+                            if (data && data.id) {
+                                document.getElementById('edit-income-id').value = data.id;
+                                document.getElementById('edit-income-title').value = data.title;
+                                document.getElementById('edit-income-amount').value = data.amount;
+                                document.getElementById('edit-income-date').value = data.date;
+                                document.getElementById('edit-income-source').value = data.source;
+                                editIncomeModal.classList.remove('hidden');
+                            } else {
+                                alert('Failed to load income details.');
+                            }
                         });
                 });
             });
             closeEditIncomeModal.addEventListener('click', function() {
                 editIncomeModal.classList.add('hidden');
+            });
+            // Prevent submitting the edit income form if id is missing
+            editIncomeForm.addEventListener('submit', function(e) {
+                if (!document.getElementById('edit-income-id').value) {
+                    e.preventDefault();
+                    alert('Invalid income ID.');
+                }
             });
             // Delete logic for income
             document.querySelectorAll('.delete-income-btn').forEach(btn => {
