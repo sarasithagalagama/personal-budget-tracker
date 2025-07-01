@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 import java.util.HashMap;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 public class TransactionController {
@@ -132,5 +133,32 @@ public class TransactionController {
         model.addAttribute("totalEarnings", totalEarnings);
         model.addAttribute("netCashflow", netCashflow);
         return "dashboard";
+    }
+
+    @GetMapping("/transaction/{id}")
+    @ResponseBody
+    public ResponseEntity<Transaction> getTransaction(@PathVariable Long id) {
+        return transactionRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/transaction/edit")
+    public String editTransaction(@ModelAttribute Transaction transaction) {
+        if (transaction.getId() != null && transactionRepository.existsById(transaction.getId())) {
+            transactionRepository.save(transaction);
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/transaction/delete/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteTransactionAjax(@PathVariable Long id) {
+        if (transactionRepository.existsById(id)) {
+            transactionRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
