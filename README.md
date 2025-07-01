@@ -18,7 +18,8 @@ A modern, mobile-friendly Spring Boot application for tracking personal finances
 - **Database:** PostgreSQL
 
 ## Screenshots
-> _Add your dashboard screenshot here!_
+![screencapture-localhost-8080-2025-07-02-03_46_52](https://github.com/user-attachments/assets/adbe388a-37ba-451e-b11a-192bcd2a4c97)
+
 
 ## Getting Started
 
