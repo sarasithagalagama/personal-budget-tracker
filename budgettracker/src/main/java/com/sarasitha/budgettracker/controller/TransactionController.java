@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+import java.util.HashMap;
 
 @Controller
 public class TransactionController {
@@ -50,6 +52,17 @@ public class TransactionController {
         model.addAttribute("monthlyTotal", monthlyTotal);
         model.addAttribute("totalEarnings", totalEarnings);
         model.addAttribute("netCashflow", netCashflow);
+        // Category-wise totals
+        Map<Category, Double> categoryTotals = new HashMap<>();
+        for (Transaction t : transactions) {
+            if (t.getCategory() != null) {
+                categoryTotals.put(t.getCategory(), categoryTotals.getOrDefault(t.getCategory(), 0.0) + t.getAmount());
+            }
+        }
+        java.util.List<String> categoryLabels = categoryTotals.keySet().stream().map(Enum::name).toList();
+        java.util.List<Double> categoryValues = categoryTotals.values().stream().toList();
+        model.addAttribute("categoryLabels", categoryLabels);
+        model.addAttribute("categoryValues", categoryValues);
         return "home";
     }
 

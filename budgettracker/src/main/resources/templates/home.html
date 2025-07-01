@@ -51,6 +51,10 @@
                 <h3 class="text-base font-semibold text-gray-200 mb-2">Monthly Cashflow</h3>
                 <canvas id="lineChart" height="120"></canvas>
             </div>
+            <div class="bg-gray-800 rounded-lg p-4 shadow col-span-2 mt-8">
+                <h3 class="text-base font-semibold text-gray-200 mb-2">Spending by Category</h3>
+                <canvas id="categoryChart" height="180"></canvas>
+            </div>
         </div>
         <!-- Add Transaction Form -->
         <div class="bg-gray-800 rounded-lg p-8 mb-8 shadow col-span-2">
@@ -177,6 +181,33 @@
                 }
             }
         });
+        // Category-wise Pie Chart
+        const categoryLabels = /*[[${categoryLabels}]]*/ [];
+        const categoryValues = /*[[${categoryValues}]]*/ [];
+        const categoryColors = [
+            '#6366f1', '#10b981', '#f59e42', '#ef4444', '#eab308', '#a78bfa', '#f472b6', '#38bdf8', '#34d399', '#f87171'
+        ];
+        if (categoryLabels.length && categoryValues.length) {
+            const catCtx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(catCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        data: categoryValues,
+                        backgroundColor: categoryColors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e5e7eb' }
+                        }
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
